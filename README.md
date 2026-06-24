@@ -85,3 +85,4 @@ Visit http://localhost:3000
 This is intentionally single-user (no login) to keep it shippable in a week.
 A natural "v2" extension — worth mentioning in interviews even if unbuilt — is
 adding Supabase Auth so each user has their own private applications.
+# ai-job-tracker
