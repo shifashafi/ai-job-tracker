@@ -26,33 +26,7 @@ Fill in `.env.local`:
 
 ## 2. Supabase database setup
 
-In your Supabase project, go to the SQL editor and run:
 
-```sql
-create table applications (
-  id uuid primary key default gen_random_uuid(),
-  company text not null,
-  role_title text,
-  jd_text text,
-  status text default 'Applied',
-  analysis jsonb,
-  cover_letter text,
-  fit_score int,
-  fit_details jsonb,
-  created_at timestamp with time zone default now()
-);
-
--- Allow anon read/write for this solo-use portfolio project.
--- (For a multi-user version, add Supabase Auth + row-level security instead.)
-alter table applications enable row level security;
-
-create policy "Allow all for anon"
-on applications
-for all
-to anon
-using (true)
-with check (true);
-```
 
 ## 3. Run locally
 
@@ -60,15 +34,9 @@ with check (true);
 npm run dev
 ```
 
-Visit http://localhost:3000
 
 ## 4. Deploy (free, no card)
 
-1. Push this project to a GitHub repo.
-2. Go to https://vercel.com → "New Project" → import the repo.
-3. In Vercel's project settings, add the same environment variables from
-   `.env.local` (Settings → Environment Variables).
-4. Deploy. You'll get a live `*.vercel.app` URL — put that in your portfolio.
 
 ## How it works
 
@@ -80,9 +48,4 @@ Visit http://localhost:3000
 - Your resume text is saved in your browser's localStorage only — never sent
   anywhere except directly to the Gemini API call when you click generate.
 
-## Notes on scope
-
-This is intentionally single-user (no login) to keep it shippable in a week.
-A natural "v2" extension — worth mentioning in interviews even if unbuilt — is
-adding Supabase Auth so each user has their own private applications.
 # ai-job-tracker
