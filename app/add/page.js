@@ -54,47 +54,55 @@ export default function AddApplication() {
   }
 
   return (
-    <div className="fade-up max-w-2xl">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-[#0F1724]">Add Application</h1>
+    <div className="fade-up max-w-2xl mx-auto">
+      <div className="mb-6">
+        <a href="/" className="text-xs text-slate-400 hover:text-slate-600 mb-2 inline-block">← Back</a>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#0F1724]">Add Application</h1>
         <p className="text-sm text-slate-500 mt-0.5">Paste the JD and let AI do the heavy lifting.</p>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-5">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 space-y-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Field label="Company">
             <input value={company} onChange={e => setCompany(e.target.value)}
-              className="input" placeholder="e.g. Emirates Group" />
+              className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              placeholder="e.g. Emirates Group" />
           </Field>
           <Field label="Role title">
             <input value={roleTitle} onChange={e => setRoleTitle(e.target.value)}
-              className="input" placeholder="e.g. Frontend Developer" />
+              className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
+              placeholder="e.g. Frontend Developer" />
           </Field>
         </div>
 
         <Field label="Job description">
-          <textarea value={jdText} onChange={e => setJdText(e.target.value)}
-            rows={9} className="input resize-none" placeholder="Paste the full job description here..." />
+          <textarea value={jdText} onChange={e => setJdText(e.target.value)} rows={9}
+            className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition resize-none"
+            placeholder="Paste the full job description here..." />
         </Field>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <button onClick={analyzeJD} disabled={analyzing || jdText.trim().length < 20}
             className="text-sm border border-slate-200 rounded-xl px-4 py-2 hover:bg-slate-50 disabled:opacity-40 transition font-medium flex items-center gap-2">
             {analyzing ? <><Spinner /> Analysing...</> : "✦ Analyse with AI"}
           </button>
-          {analysis && <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">Analysis ready</span>}
+          {analysis && <span className="text-xs text-green-600 bg-green-50 px-2.5 py-1 rounded-full border border-green-100">Analysis ready ✓</span>}
         </div>
 
-        {error && <p className="text-sm text-red-500 bg-red-50 rounded-lg px-3 py-2">{error}</p>}
+        {error && (
+          <div className="bg-red-50 border border-red-100 rounded-xl px-4 py-2.5">
+            <p className="text-sm text-red-500">{error}</p>
+          </div>
+        )}
 
         {analysis && (
           <div className="bg-slate-50 rounded-xl p-4 text-sm space-y-3 border border-slate-100">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Seniority</span>
-              <span className="bg-white border border-slate-200 rounded-full px-2 py-0.5 text-xs">{analysis.seniority}</span>
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Seniority:</span>
+              <span className="bg-white border border-slate-200 rounded-full px-2.5 py-0.5 text-xs font-medium">{analysis.seniority}</span>
             </div>
             <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Required</p>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Required skills</p>
               <div className="flex flex-wrap gap-1.5">
                 {analysis.required_skills?.map(s => (
                   <span key={s} className="bg-blue-50 text-blue-600 text-xs px-2.5 py-1 rounded-full border border-blue-100">{s}</span>
@@ -102,7 +110,7 @@ export default function AddApplication() {
               </div>
             </div>
             <div>
-              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Nice to have</p>
+              <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Nice to have</p>
               <div className="flex flex-wrap gap-1.5">
                 {analysis.nice_to_have_skills?.map(s => (
                   <span key={s} className="bg-slate-100 text-slate-500 text-xs px-2.5 py-1 rounded-full">{s}</span>
@@ -112,18 +120,11 @@ export default function AddApplication() {
           </div>
         )}
 
-        <div className="pt-1">
-          <button onClick={saveApplication} disabled={saving || !company || !roleTitle}
-            className="bg-[#0F1724] text-white text-sm font-medium px-5 py-2.5 rounded-xl disabled:opacity-40 hover:bg-slate-800 transition">
-            {saving ? "Saving..." : "Save Application →"}
-          </button>
-        </div>
+        <button onClick={saveApplication} disabled={saving || !company || !roleTitle}
+          className="w-full sm:w-auto bg-[#0F1724] text-white text-sm font-semibold px-6 py-2.5 rounded-xl disabled:opacity-40 hover:bg-slate-800 transition">
+          {saving ? "Saving..." : "Save Application →"}
+        </button>
       </div>
-
-      <style jsx>{`
-        .input { width: 100%; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 0.6rem 0.75rem; font-size: 0.875rem; outline: none; transition: box-shadow 0.15s; }
-        .input:focus { box-shadow: 0 0 0 3px rgba(79,142,247,0.15); border-color: #4F8EF7; }
-      `}</style>
     </div>
   );
 }
